@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>学生后台管理系统</title>
+
+<!--Bootstrap固定框架-->
+<link rel='stylesheet' th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.css}">
+<link rel='stylesheet' th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap-theme.css}">
+<!--图标库-->
+<link rel='stylesheet' th:href='@{/css/material-design-iconic-font.min.css}'>
+<!--核心样式-->
+<link rel="stylesheet" th:href="@{/css/style.css}">
+  <script th:src="@{/js/DateFormat.js}"></script>
+  <script th:src="@{/js/Format.js}"></script>
+  <script th:src="@{/js/SimpleDateFormat.js}"></script>
+<script th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
+</head>
+<script th:inline="javascript">
+
+  function getStudentList() {
+    $.ajax({
+      url : "/student/getStudentList",
+      dataType : "json",
+      type : "get",
+      success : function (resp) {
+        $("#stuTable").empty();
+        $("#stuTable").append(
+                "<tr>\n" +
+                "<td>学生编号</td>\n" +
+                "<td>学生名称</td>\n" +
+                "<td>学生生日</td>\n" +
+                "<td>学生年龄</td>\n" +
+                "<td>学生爱好</td>\n" +
+                "<td>操作</td>\n" +
+                "</tr>\n"
+        );
+
+        $.each(resp,function (i,stu){
+
+          $("#stuTable").append("<tr>\n" +
+                  "<td>"+stu.no+"</td>\n" +
+                  "<td>"+stu.name+"</td>\n" +
+                  "<td>"+stu.birthday+"</td>\n" +
+                  "<td>"+stu.age+"</td>\n" +
+                  "<td>"+stu.hobby+"</td>\n" +
+                  "<td>\n" +
+                  "<button class='btn btn-default' onclick='goUpdate("+stu.sid+")'>修改</button>\n" +
+                  "<button class='btn btn-danger' onclick='delBtn("+stu.sid+")'>删除</button>\n" +
+                  "</td>\n" +
+                  "</tr>");
+        })
+
+      }
+
+    })
+  }
+
+  function delBtn(id) {
+    if (confirm("是否删除该学生信息？")){
+      $.ajax({
+        url : "/student/delStu",
+        data : { "sid" : id},
+        type : "get",
+        dataType : "json",
+        success : function (resp) {
+          if (resp === 200){
+            alert("删除成功！");
+            getStudentList();
+          }else {
+            alert("删除失败！");
+          }
+        }
+      })
+    }
+  }
+
+  function goUpdate(id) {
+    window.location = "/student/goStuUpdate?sid="+id;
+  }
+
+  $().ready(function () {
+
+    $("#saveBtn").click(function () {
+      $.ajax({
+        url : "/student/saveStudent",
+        type : "post",
+        data : {
+          sid : $("#sid").val(),
+          no : $("#no").val(),
+          name : $("#name").val(),
+          birthday : $("#birthday").val(),
+          hobby : $("#hobby").val()
+        },
+        dataType : "json",
+        success : function (resp) {
+          if (resp === 200){
+            alert("修改成功！");
+            window.location = "/student/goStuMenu";
+          }else {
+            alert("修改失败");
+          }
+        }
+      })
+    })
+  })
+
+
+
+</script>
+<body>
+
+<div id="viewport">
+
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <header>
+      <a href="#">学生后台管理</a>
+    </header>
+    <ul class="nav">
+      <li>
+        <a onclick="getStudentList()">
+          <i class="zmdi zmdi-view-dashboard"></i> 学生管理
+        </a>
+      </li>
+      <li>
+        <a>
+          <i class="zmdi zmdi-link"></i> 课程管理
+        </a>
+      </li>
+      <li>
+        <a>
+          <i class="zmdi zmdi-widgets"></i> 学生课程管理
+        </a>
+
+    </ul>
+  </div>
+  
+  <!-- Content -->
+  <div id="content">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid" >
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#"><i class="zmdi zmdi-notifications text-danger"></i>
+            </a>
+          </li>
+          <li><a href="#">测试用户123</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-hover table-striped" >
+              <tbody id="stuTable">
+              </tbody>
+            </table>
+            <form class="form-horizontal" >
+              <div class="form-group">
+                <input type="hidden" id="sid" th:value="${stu.getSid()}">
+                <div class="col-sm-1">
+                  学号:
+                </div>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" th:value="${stu.getNo()}" id="no" name="no" />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-1">
+                  姓名:
+                </div>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" th:value="${stu.getName()}" id="name" name="name" />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class ="col-md-1">
+                  生日:
+                </div>
+                <div class="col-sm-3">
+                  <input type="date" class="form-control" th:value="${#dates.format(stu.getBirthday(),'yyyy-MM-dd')}" id="birthday" name="birthday" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-1">
+                  爱好:
+                </div>
+                <div class="col-sm-3">
+                  <select id="hobby" name="hobby"  class="form-control">
+                    <option value="足球">足球</option>
+                    <option value="篮球">篮球</option>
+                    <option value="游泳">游泳</option>
+                    <option value="网球">网球</option>
+                    <option value="乒乓球">乒乓球</option>
+                    <option value="其它">其它</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="button" id="saveBtn" class="btn btn-default">提交</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.syxy.stumangementsys.mapper.StudentMapper">
+    <resultMap id="StudentResultMap" type="com.syxy.stumangementsys.entities.Student">
+        <id column="sid" jdbcType="INTEGER" property="sid"/>
+        <result column="stu_no" jdbcType="VARCHAR" property="no"/>
+        <result column="stu_name" jdbcType="VARCHAR" property="name"/>
+        <result column="stu_birthday" jdbcType="VARCHAR" property="birthday"/>
+        <result column="stu_hobby" jdbcType="VARCHAR" property="hobby"/>
+        <result column="stu_image" jdbcType="VARCHAR" property="image"/>
+    </resultMap>
+
+
+    <select id="getStudentList" resultMap="StudentResultMap">
+    select sid,stu_no,stu_name,stu_birthday,stu_hobby,stu_image,
+        YEAR(CURRENT_DATE()) - YEAR(stu_birthday) age
+    from tb_student
+    </select>
+
+    <select id="getStudentById" parameterType="int" resultMap="StudentResultMap">
+    select sid,stu_no,stu_name,stu_birthday,stu_hobby,stu_image
+    from tb_student
+    where sid = #{sid}
+    </select>
+    <delete id="delStudent" parameterType="int">
+        delete from tb_student where sid = #{sid}
+
+    </delete>
+    <update id="updateStudent" parameterType="Student">
+        update tb_student
+        set stu_no = #{no} ,stu_name = #{name}, stu_hobby = #{hobby},stu_birthday=#{birthday}
+        where sid = #{sid}
+    </update>
+    <insert id="insertStudent" parameterType="Student">
+        insert into tb_student
+        (stu_no,stu_name,stu_birthday,stu_hobby,stu_image)
+        values
+        (#{no},#{name},#{birthday},#{hobby},#{image})
+    </insert>
+    <select id="serchStu" parameterType="Student" resultMap="StudentResultMap">
+    select sid,stu_no,stu_name,stu_birthday,stu_hobby,stu_image,
+        YEAR(CURRENT_DATE()) - YEAR(stu_birthday) age
+    from tb_student
+    <where>
+        <if test="name != null and name != ''">
+            stu_name like '%' #{name} '%'
+        </if>
+    </where>
+    </select>
+</mapper>

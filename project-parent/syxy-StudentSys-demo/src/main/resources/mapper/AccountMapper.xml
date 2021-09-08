@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.syxy.stumangementsys.mapper.AccountMapper">
+    <resultMap id="AccountResultMap" type="com.syxy.stumangementsys.entities.Account">
+        <id column="aid" jdbcType="INTEGER" property="aid"/>
+        <result column="user_name" jdbcType="VARCHAR" property="name"/>
+        <result column="user_pwd" jdbcType="VARCHAR" property="pwd"/>
+        <result column="user_mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="user_mail" jdbcType="VARCHAR" property="mail"/>
+    </resultMap>
+    
+    <select id="getAccount" resultMap="AccountResultMap" parameterType="Account">
+        select user_name, user_pwd
+        from tb_account
+        where user_name = #{name} and
+              user_pwd = #{pwd}
+    </select>
+    
+</mapper>
