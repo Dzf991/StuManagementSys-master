@@ -118,7 +118,7 @@ $().ready(function () {
   getCourseList();
   $("#serchBtn").click(function () {
     $.ajax({
-      url : "/student/serchStu",
+      url : "/course/serchStuCourse",
       data : {
         name : $("#name").val()
       },
@@ -128,26 +128,22 @@ $().ready(function () {
         $("#stuTable").empty();
         $("#stuTable").append(
                 "<tr>\n" +
-                "<td>学生编号</td>\n" +
                 "<td>学生名称</td>\n" +
-                "<td>学生生日</td>\n" +
-                "<td>学生年龄</td>\n" +
-                "<td>学生爱好</td>\n" +
+                "<td>课程名称</td>\n" +
+                "<td>成绩</td>\n" +
                 "<td>操作</td>\n" +
                 "</tr>\n"
         );
 
-        $.each(resp,function (i,stu){
+        $.each(resp,function (i,coursestu){
 
           $("#stuTable").append("<tr>\n" +
-                  "<td>"+stu.no+"</td>\n" +
-                  "<td>"+stu.name+"</td>\n" +
-                  "<td>"+stu.birthday+"</td>\n" +
-                  "<td>"+stu.age+"</td>\n" +
-                  "<td>"+stu.hobby+"</td>\n" +
+                  "<td>"+coursestu.student.name+"</td>\n" +
+                  "<td>"+coursestu.course.name+"</td>\n" +
+                  "<td>"+coursestu.score+"</td>\n" +
                   "<td>\n" +
-                  "<button class='btn btn-default' onclick='goUpdate("+stu.sid+")'>修改</button>\n" +
-                  "<button class='btn btn-danger' onclick='delBtn("+stu.sid+")'>删除</button>\n" +
+                  "<button class='btn btn-default' onclick='goUpdate("+coursestu.sid+")'>修改</button>\n" +
+                  "<button class='btn btn-danger' onclick='delBtn("+coursestu.sid+","+coursestu.cid+")'>删除</button>\n" +
                   "</td>\n" +
                   "</tr>");
         })

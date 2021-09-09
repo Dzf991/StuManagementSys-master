@@ -1,6 +1,7 @@
 package com.syxy.stumangementsys.controller;
 
 
+import com.syxy.stumangementsys.entities.StudentCourse;
 import com.syxy.stumangementsys.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/course")
@@ -33,5 +36,12 @@ public class CourseController {
                                @PathVariable(value = "cid") Integer cid){
         int code = courseService.delStuCourse(sid, cid);
         return code;
+    }
+    @ResponseBody
+    @GetMapping(value = "/serchStuCourse")
+    public Object serchStuCourse(String name){
+       List<StudentCourse> studentControllers = courseService.serchStuCourse(name);
+       return studentControllers;
+
     }
 }

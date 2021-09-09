@@ -1,6 +1,7 @@
 package com.syxy.stumangementsys.mapper;
 
 import com.syxy.stumangementsys.controller.StudentController;
+import com.syxy.stumangementsys.entities.StudentCourse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,4 +13,6 @@ public interface CourseMapper {
 
     int delStuCourse(@Param(value = "sid") Integer sid,
                      @Param(value = "cid")Integer cid);
+
+    List<StudentCourse> serchStuCourse(String name);
 }

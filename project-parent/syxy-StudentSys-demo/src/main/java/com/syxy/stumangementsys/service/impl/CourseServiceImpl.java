@@ -1,6 +1,7 @@
 package com.syxy.stumangementsys.service.impl;
 
 import com.syxy.stumangementsys.controller.StudentController;
+import com.syxy.stumangementsys.entities.StudentCourse;
 import com.syxy.stumangementsys.mapper.CourseMapper;
 import com.syxy.stumangementsys.service.CourseService;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,12 @@ public class CourseServiceImpl implements CourseService {
            return 200;
        }
         return 400;
+    }
+
+    @Override
+    public List<StudentCourse> serchStuCourse(String name) {
+        List<StudentCourse> studentCourses = courseMapper.serchStuCourse(name);
+
+        return studentCourses;
     }
 }

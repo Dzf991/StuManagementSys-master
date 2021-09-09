@@ -22,4 +22,15 @@
     <delete id="delStuCourse" >
         delete from tb_stu_course where stu_id = #{sid} and course_id = #{cid}
     </delete>
+
+    <select id="serchStuCourse" resultMap="StudentCourseResultMap">
+        SELECT sid,cid,stu_name,course_name,course_score
+        FROM tb_student s, tb_course c ,tb_stu_course sc
+        <where>
+            s.sid = sc.stu_id and c.cid = sc.course_id
+            <if test="_parameter != null and _parameter != ''">
+               and stu_name like '%' #{name} '%'
+            </if>
+        </where>
+    </select>
 </mapper>
