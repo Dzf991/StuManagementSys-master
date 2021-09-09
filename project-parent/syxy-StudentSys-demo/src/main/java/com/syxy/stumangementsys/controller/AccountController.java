@@ -23,7 +23,7 @@ public class AccountController {
         if (account1 != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user",account1);
-            return "StuMenu";
+            return "StuMenu.html";
         }
         model.addAttribute("loginErrorMsg","用户名或密码错误！请重新输入。");
         return "index";

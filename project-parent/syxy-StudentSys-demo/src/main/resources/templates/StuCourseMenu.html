@@ -79,7 +79,7 @@
                   "<td>"+coursestu.course.name+"</td>\n" +
                   "<td>"+coursestu.score+"</td>\n" +
                   "<td>\n" +
-                  "<button class='btn btn-default' onclick='goUpdate("+coursestu.sid+")'>修改</button>\n" +
+                  "<button class='btn btn-default' onclick='goUpdate("+coursestu.sid+","+coursestu.cid+")'>修改</button>\n" +
                   "<button class='btn btn-danger' onclick='delBtn("+coursestu.sid+","+coursestu.cid+")'>删除</button>\n" +
                   "</td>\n" +
                   "</tr>");
@@ -111,7 +111,7 @@ function goUpdate(sid,cid) {
 }
 
 function goAdd() {
-  window.location = "/student/goAdd";
+  window.location = "/course/goAdd";
 }
 
 $().ready(function () {
@@ -217,9 +217,6 @@ $().ready(function () {
                 <button type="button" id="serchBtn" class="btn btn-default">搜索</button>
               </form>
             </div>
-
-
-
 
             <table class="table table-hover table-striped" >
               <tbody id="stuTable">

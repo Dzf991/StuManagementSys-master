@@ -104,6 +104,13 @@
       })
     })
   })
+  function goStudentMenu() {
+    window.location = "/student/goStuMenu";
+  }
+
+  function goStuCourseMenu() {
+    window.location = "/course/goCourseMenu";
+  }
 
 
 
@@ -119,7 +126,7 @@
     </header>
     <ul class="nav">
       <li>
-        <a onclick="getStudentList()">
+        <a onclick="goStudentMenu()">
           <i class="zmdi zmdi-view-dashboard"></i> 学生管理
         </a>
       </li>
@@ -129,7 +136,7 @@
         </a>
       </li>
       <li>
-        <a>
+        <a onclick="goStuCourseMenu()">
           <i class="zmdi zmdi-widgets"></i> 学生课程管理
         </a>
 

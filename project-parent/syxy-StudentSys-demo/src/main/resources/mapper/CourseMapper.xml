@@ -13,6 +13,13 @@
         </association>
     </resultMap>
 
+    <resultMap id="CourseResultMap" type="com.syxy.stumangementsys.entities.Course">
+        <id column="cid" property="cid"/>
+        <result column="course_name" property="name"/>
+        <result column="course_desc" property="desc"/>
+        <result column="course_credit" property="credit"/>
+    </resultMap>
+
     <select id="getCourseList" resultMap="StudentCourseResultMap">
         SELECT sid,cid,stu_name,course_name,course_score
         FROM tb_student s, tb_course c ,tb_stu_course sc
@@ -37,5 +44,32 @@
         SELECT sid,cid,stu_name,course_name,course_score
         FROM tb_student s, tb_course c ,tb_stu_course sc
         WHERE s.sid = sc.stu_id and c.cid = sc.course_id
+        and sid = #{sid} and cid = #{cid}
     </select>
+
+
+    <select id="getCourses" resultMap="CourseResultMap">
+        select cid,course_name,course_desc,course_credit
+        from tb_course
+    </select>
+
+    <select id="getCourseById" resultMap="CourseResultMap">
+        select cid,course_name,course_desc,course_credit
+        from tb_course
+        where cid = #{cid}
+    </select>
+
+
+    <update id="updateStudentCourse" parameterType="StudentCourse">
+        update tb_stu_course
+        set course_score = #{score}
+        where course_id = #{cid}
+        and stu_id = #{sid}
+    </update>
+
+    <insert id="addStudentCourse" parameterType="StudentCourse">
+        insert into tb_stu_course (stu_id,course_id,course_score)
+        select #{sid},#{cid},#{score}
+        FROM DUAL WHERE NOT EXISTS(SELECT  stu_id,course_id FROM tb_stu_course where stu_id = #{sid} and course_id = #{cid})
+    </insert>
 </mapper>

@@ -9,10 +9,7 @@ import com.syxy.stumangementsys.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,8 +24,24 @@ public class CourseController {
 
     @GetMapping(value = "/goCourseMenu")
     public String goCourseMenu(){
-       return "CourseMenu";
+       return "StuCourseMenu";
     }
+
+
+    @GetMapping(value = "/goAdd")
+    public String goAdd(Model model){
+
+        List<Course> courseList = courseService.getCourses();
+        List<Student> studentList = studentService.getStudentList();
+        model.addAttribute("courses",courseList);
+        model.addAttribute("studentList",studentList);
+        return "StuCourseAdd";
+    }
+
+
+
+
+
     @ResponseBody
     @GetMapping(value = "/getCourseList")
     public Object getCourseList(){
@@ -50,18 +63,33 @@ public class CourseController {
        return studentControllers;
     }
 
-    @ResponseBody
     @GetMapping(value = "/goStuCourseUpdate/{sid}/{cid}")
-    public String goStuCourseUpdate(@PathVariable(value = "sid") Integer sid ,
+    public String goStuCourseUpdate(@PathVariable(value = "sid") Integer sid,
                                     @PathVariable(value = "cid") Integer cid,
                                     Model model){
-
-        List<Student> students = studentService.getStudentList();
+//
+        Student student = studentService.getStudentById(sid);
         StudentCourse studentCourse = courseService.getStuCourseById(sid,cid);
-        List<Course> courses = courseService.getCourses();
+        Course course = courseService.getCourseById(cid);
         model.addAttribute("studentCourse",studentCourse);
-        model.addAttribute("students",students);
-        model.addAttribute("courses",courses);
+        model.addAttribute("students",student);
+        model.addAttribute("course",course);
         return "StuCourseUpdate";
     }
+
+    @ResponseBody
+    @PostMapping(value = "/updateStudentCourse")
+    public Object updateStudentCourse(StudentCourse studentCourse){
+        int result = courseService.updateStudentCourse(studentCourse);
+        return result;
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/addStudentCourse")
+    public Object addStudentCourse(StudentCourse studentCourse){
+       int result = courseService.addStudentCourse(studentCourse);
+       return result;
+    }
+
+
 }
