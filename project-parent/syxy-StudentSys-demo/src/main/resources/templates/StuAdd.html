@@ -44,6 +44,11 @@
         }
       })
     })
+
+   $("#exit").click(function () {
+     window.location = "/student/goStuMenu";
+   })
+
   })
 
 
@@ -143,6 +148,7 @@
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                   <button type="button" id="addBtn" class="btn btn-default">提交</button>
+                  <button type="button" id="exit" class="btn btn-default">返回</button>
                 </div>
               </div>
             </form>
