@@ -11,4 +11,6 @@ public interface CourseService {
     int delStuCourse(Integer sid, Integer cid);
 
     List<StudentCourse> serchStuCourse(String name);
+
+    StudentCourse getStuCourseById(Integer sid, Integer cid);
 }

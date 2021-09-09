@@ -33,4 +33,13 @@ public class CourseServiceImpl implements CourseService {
 
         return studentCourses;
     }
+
+    @Override
+    public StudentCourse getStuCourseById(Integer sid, Integer cid) {
+
+        StudentCourse studentCourse = courseMapper.getStuCourseById(sid,cid);
+
+
+        return null;
+    }
 }

@@ -106,8 +106,8 @@
     }
   }
 
-function goUpdate(id) {
-  window.location = "/student/goStuUpdate?sid="+id;
+function goUpdate(sid,cid) {
+  window.location = "/course/goStuCourseUpdate/"+sid+"/"+cid;
 }
 
 function goAdd() {
@@ -142,7 +142,7 @@ $().ready(function () {
                   "<td>"+coursestu.course.name+"</td>\n" +
                   "<td>"+coursestu.score+"</td>\n" +
                   "<td>\n" +
-                  "<button class='btn btn-default' onclick='goUpdate("+coursestu.sid+")'>修改</button>\n" +
+                  "<button class='btn btn-default' onclick='goUpdate("+coursestu.sid+","+coursestu.cid+")'>修改</button>\n" +
                   "<button class='btn btn-danger' onclick='delBtn("+coursestu.sid+","+coursestu.cid+")'>删除</button>\n" +
                   "</td>\n" +
                   "</tr>");

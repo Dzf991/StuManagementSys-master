@@ -33,4 +33,9 @@
             </if>
         </where>
     </select>
+    <select id="getStuCourseById" resultMap="StudentCourseResultMap">
+        SELECT sid,cid,stu_name,course_name,course_score
+        FROM tb_student s, tb_course c ,tb_stu_course sc
+        WHERE s.sid = sc.stu_id and c.cid = sc.course_id
+    </select>
 </mapper>

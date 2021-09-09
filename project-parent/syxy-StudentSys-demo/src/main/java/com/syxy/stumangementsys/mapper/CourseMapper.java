@@ -15,4 +15,7 @@ public interface CourseMapper {
                      @Param(value = "cid")Integer cid);
 
     List<StudentCourse> serchStuCourse(String name);
+
+    StudentCourse getStuCourseById(@Param(value = "sid") Integer sid,
+                                   @Param(value = "cid")Integer cid));
 }
