@@ -56,19 +56,48 @@
     })
   }
 
+  function getCourseList() {
+    $.ajax({
+      url : "/course/getCourseList",
+      dataType : "json",
+      type : "get",
+      success : function (resp) {
+        $("#stuTable").empty();
+        $("#stuTable").append(
+                "<tr>\n" +
+                "<td>学生名称</td>\n" +
+                "<td>课程名称</td>\n" +
+                "<td>成绩</td>\n" +
+                "<td>操作</td>\n" +
+                "</tr>\n"
+        );
 
+        $.each(resp,function (i,coursestu){
 
-  function delBtn(id) {
+          $("#stuTable").append("<tr>\n" +
+                  "<td>"+coursestu.student.name+"</td>\n" +
+                  "<td>"+coursestu.course.name+"</td>\n" +
+                  "<td>"+coursestu.score+"</td>\n" +
+                  "<td>\n" +
+                  "<button class='btn btn-default' onclick='goUpdate("+coursestu.sid+")'>修改</button>\n" +
+                  "<button class='btn btn-danger' onclick='delBtn("+coursestu.sid+","+coursestu.cid+")'>删除</button>\n" +
+                  "</td>\n" +
+                  "</tr>");
+        })
+      }
+    })
+  }
+
+  function delBtn(sid,cid) {
     if (confirm("是否删除该学生信息？")){
       $.ajax({
-        url : "/student/delStu",
-        data : { "sid" : id},
+        url : "/course/delStuCourse/"+sid+"/"+cid,
         type : "get",
         dataType : "json",
         success : function (resp) {
           if (resp === 200){
             alert("删除成功！");
-            getStudentList();
+            getCourseList();
           }else {
             alert("删除失败！");
           }
@@ -76,22 +105,17 @@
       })
     }
   }
-  function getCourseList() {
-    window.location = "/course/goCourseMenu";
-  }
 
-
-  function goUpdate(id) {
+function goUpdate(id) {
   window.location = "/student/goStuUpdate?sid="+id;
-  }
+}
 
 function goAdd() {
   window.location = "/student/goAdd";
 }
 
 $().ready(function () {
-  getStudentList();
-
+  getCourseList();
   $("#serchBtn").click(function () {
     $.ajax({
       url : "/student/serchStu",

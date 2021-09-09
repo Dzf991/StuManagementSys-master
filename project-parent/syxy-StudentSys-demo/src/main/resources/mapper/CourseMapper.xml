@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.syxy.stumangementsys.mapper.CourseMapper">
+    <resultMap id="StudentCourseResultMap" type="com.syxy.stumangementsys.entities.StudentCourse">
+        <id column="sid" property="sid"/>
+        <id column="cid" property="cid"/>
+        <result column="course_score" property="score"/>
+        <association property="student" javaType="Student">
+            <result column="stu_name" property="name"/>
+        </association>
+        <association property="course" javaType="Course">
+            <result column="course_name" property="name"/>
+        </association>
+    </resultMap>
+
+    <select id="getCourseList" resultMap="StudentCourseResultMap">
+        SELECT sid,cid,stu_name,course_name,course_score
+        FROM tb_student s, tb_course c ,tb_stu_course sc
+        WHERE s.sid = sc.stu_id and c.cid = sc.course_id
+    </select>
+
+    <delete id="delStuCourse" >
+        delete from tb_stu_course where stu_id = #{sid} and course_id = #{cid}
+    </delete>
+</mapper>
